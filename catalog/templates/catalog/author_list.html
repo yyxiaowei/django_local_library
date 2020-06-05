@@ -1,0 +1,26 @@
+{% extends 'base_generic.html' %}
+{% block title %} <title>Author List</title>{% endblock %}
+{% block content %}
+<h1>Author List</h1>
+
+{% if author_list %}
+<ul>
+  {% for author in author_list %}
+  <li>
+    <a href="{{ author.get_absolute_url }}">
+      {{ author.first_name }} {{ author.last_name}}
+      {% if perms.catalog.can_mark_returned %}
+        <span style="color: red;">
+          <a href="{% url 'author_update' author.pk %}">修改</a>
+          <a href="{% url 'author_delete' author.pk %}">删除</a>
+        </span>
+      {% endif %}
+    </a>
+  </li>
+  {% endfor %}
+
+</ul>
+{% else %}
+  <p>There are no books in the library.</p>
+{% endif %}  
+{% endblock%}
